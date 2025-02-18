@@ -1,0 +1,158 @@
+table 'Time Intelligence v2'
+	lineageTag: ed45dd10-f81b-4c32-b025-fbd7d96f36f6
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem Actuals =
+				CALCULATE(
+				    SELECTEDMEASURE( )/1000,
+				    DimScenario[ScenarioName] = "Actual"
+				)
+
+			formatStringDefinition =
+					VAR _currency =
+					    IF(
+					        HASONEVALUE( DimCurrency[CurrencyName] ),
+					        SELECTEDVALUE( DimCurrency[CurrencyName] ),
+					        " mixed Currency!"
+					    )
+					RETURN
+					    "#,##0 k" & _currency & ";-#,##0 k" & _currency & ";0 k"
+					        & _currency
+
+		calculationItem PY =
+				CALCULATE(
+				    SELECTEDMEASURE( )/1000,
+				    DimScenario[ScenarioName] = "Actual",
+				    SAMEPERIODLASTYEAR( DimDate[Datekey] )
+				)
+
+			formatStringDefinition =
+					VAR _currency =
+					    IF(
+					        HASONEVALUE( DimCurrency[CurrencyName] ),
+					        SELECTEDVALUE( DimCurrency[CurrencyName] ),
+					        " mixed Currency!"
+					    )
+					RETURN
+					    "#,##0 k" & _currency & ";-#,##0 k" & _currency & ";0 k"
+					        & _currency
+
+		calculationItem 'Delta PY' =
+				VAR _CY =
+				    CALCULATE(
+				        SELECTEDMEASURE( )/1000,
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _PY =
+				    CALCULATE(
+				        SELECTEDMEASURE( )/1000,
+				        DimScenario[ScenarioName] = "Actual",
+				        SAMEPERIODLASTYEAR( DimDate[Datekey] )
+				    )
+				RETURN
+				    IF( ISBLANK( _PY ) || ISBLANK( _CY ), BLANK( ), _CY - _PY )
+
+			formatStringDefinition =
+					VAR _currency =
+					    IF(
+					        HASONEVALUE( DimCurrency[CurrencyName] ),
+					        SELECTEDVALUE( DimCurrency[CurrencyName] ),
+					        " mixed Currency!"
+					    )
+					RETURN
+					    "+#,##0 k" & _currency & " ▲;-#,##0 k" & _currency & " ▼;0 k"
+					        & _currency
+
+		calculationItem 'Delta PY %' =
+				VAR _CY =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _PY =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual",
+				        SAMEPERIODLASTYEAR( DimDate[Datekey] )
+				    )
+				RETURN
+				    IF( ISBLANK( _PY ) || ISBLANK( _CY ), BLANK( ), DIVIDE( _CY - _PY, ABS( _PY ) ) )
+
+			formatStringDefinition = "+#,##0% ▲;-#,##0% ▼;0"
+
+		calculationItem 'Delta Budget' =
+				VAR _Act =
+				    CALCULATE(
+				        SELECTEDMEASURE( )/1000,
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _Bud =
+				    CALCULATE(
+				        SELECTEDMEASURE( )/1000,
+				        DimScenario[ScenarioName] = "Budget"
+				    )
+				RETURN
+				    IF(
+				        ISBLANK( _Act ) || ISBLANK( _Bud ),
+				        BLANK( ),
+				        _Act - _Bud
+				    )
+
+			formatStringDefinition =
+					VAR _currency =
+					    IF(
+					        HASONEVALUE( DimCurrency[CurrencyName] ),
+					        SELECTEDVALUE( DimCurrency[CurrencyName] ),
+					        " mixed Currency!"
+					    )
+					RETURN
+					    "+#,##0 k" & _currency & " ▲;-#,##0 k" & _currency & " ▼;0 k"
+					        & _currency
+
+		calculationItem 'Delta Budget %' =
+				VAR _Act =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _Bud =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Budget"
+				    )
+				RETURN
+				    IF(
+				        ISBLANK( _Act ) || ISBLANK( _Bud ),
+				        BLANK( ),
+				        DIVIDE( _Act - _Bud, ABS( _Bud ) )
+				    )
+
+			formatStringDefinition = "+#,##0% ▲;-#,##0% ▼;0"
+
+	measure 'Value for Conditional Formating' =
+			VAR _SelectedTI =
+			    SELECTEDVALUE(
+			        'Time Intelligence v2'[Time Intelligence Calculation Item]
+			    )
+			RETURN
+			    IF(
+			        SEARCH( "Delta", _SelectedTI, 1, 0 ) > 0,
+			        [Value],
+			        BLANK( )
+			    )
+		lineageTag: b03a989f-3580-41a2-9ee6-6a70011438bb
+
+	column 'Time Intelligence Calculation Item'
+		dataType: string
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		sourceColumn: Ordinal
+
+	annotation TabularEditor_TableGroup = Special
+

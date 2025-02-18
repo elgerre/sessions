@@ -1,0 +1,294 @@
+table 'Measures Table'
+	lineageTag: 41964ab9-7ff1-4343-bb5c-474b966124f1
+
+	measure 'v1 Actuals' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v1
+		lineageTag: 32670c20-1817-4fe3-80cb-18634a3e6f83
+
+	measure 'v1 Budget' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimScenario[ScenarioName] = "Budget"
+			)
+		displayFolder: v1
+		lineageTag: 08ad2363-bf9c-46cc-ac2b-c411b74a05dc
+
+	measure Value = SUM(FactStrategyPlan[Amount])
+		lineageTag: 63a6f36a-39cc-40de-ae93-9386c6265ebe
+
+	measure 'v1 Actuals PY' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimScenario[ScenarioName] = "Actual",
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] )
+			)
+		displayFolder: v1
+		lineageTag: 8c51c8c5-abae-4899-8a53-2e0a07927d22
+
+	measure 'v1 Actuals Delta PY' =
+			VAR _CY =
+			    CALCULATE(
+			        SUM( FactStrategyPlan[Amount] ),
+			        DimScenario[ScenarioName] = "Actual"
+			    )
+			VAR _PY =
+			    CALCULATE(
+			        SUM( FactStrategyPlan[Amount] ),
+			        DimScenario[ScenarioName] = "Actual",
+			        SAMEPERIODLASTYEAR( DimDate[Datekey] )
+			    )
+			RETURN
+			    _CY - _PY
+		displayFolder: v1
+		lineageTag: 6fbf050a-d17f-4ccb-8e75-f2dd66805431
+
+	measure 'v1 Actuals Delta Budget' =
+			VAR _Act =
+			    CALCULATE(
+			        SUM( FactStrategyPlan[Amount] ),
+			        DimScenario[ScenarioName] = "Actual"
+			    )
+			VAR _Bud =
+			    CALCULATE(
+			        SUM( FactStrategyPlan[Amount] ),
+			        DimScenario[ScenarioName] = "Budget"
+			    )
+			RETURN
+			    _Act - _Bud
+		displayFolder: v1
+		lineageTag: 601fddd2-1026-4173-a35a-48f57047a733
+
+	measure 'v2 Cost of Goods Sold' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Cost of Goods Sold",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v2
+		lineageTag: dfd22bda-1c56-472c-9dc1-7ed854ad18dd
+
+	measure 'v2 Sales Revenue' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Sale Revenue",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v2
+		lineageTag: 5e2d837f-da9f-4ef1-81ae-f44c4575da04
+
+	measure 'v2 Other Expenses' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Other Expenses",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v2
+		lineageTag: 64696a05-972d-4ab9-9266-2f7c34e7445c
+
+	measure 'v2 Profit' =
+			[v2 Sales Revenue] - [v2 Cost of Goods Sold]
+			    - [v2 Other Expenses]
+		displayFolder: v2
+		lineageTag: e570cef6-e552-4ab9-8c58-99e3c506db4d
+
+	measure 'v2 Profit PY' =
+			CALCULATE(
+			    [v2 Profit],
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v2
+		lineageTag: 5e8e10b8-4518-434f-9741-0ff54fd0321e
+
+	measure 'v2 Profit Delta PY' = [v2 Profit] - [v2 Profit PY]
+		displayFolder: v2
+		lineageTag: 3aadcd4b-14b5-460a-86cd-1651a8140c74
+
+	measure 'v1 Cost of Goods Sold' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimAccount[AccountName] = "Cost of Goods Sold"
+			)
+		displayFolder: v1
+		lineageTag: ee91cd05-1436-413d-8b60-2056b351f8b1
+
+	measure 'v1 Other Expenses' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimAccount[AccountName] = "Other Expenses"
+			)
+		displayFolder: v1
+		lineageTag: 3b6bff96-c8dd-45b7-ba1b-69c5e71382d7
+
+	measure 'v1 Profit' = [v1 Sales Revenue]-[v1 Cost of Goods Sold]-[v1 Other Expenses]
+		displayFolder: v1
+		lineageTag: 2659d1f3-143d-4d42-969f-f25c54962882
+
+	measure 'v1 Sales Revenue' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] ),
+			    DimAccount[AccountName] = "Sale Revenue"
+			)
+		displayFolder: v1
+		lineageTag: 4487aa68-9dc3-4027-ad3c-f4ca61f9de95
+
+	measure 'v3 Cost of Goods Sold' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Cost of Goods Sold",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: c3a53f33-80f2-435f-b46e-5579907d7ce3
+
+	measure 'v3 Sales Revenue' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Sale Revenue",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: 741e12a6-7a43-462d-96fe-98d908e14e2f
+
+	measure 'v3 Other Expenses' =
+			CALCULATE(
+			    SUM( FactStrategyPlan[Amount] )/1000,
+			    DimAccount[AccountName] = "Other Expenses",
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: 80be8811-6c00-47cf-a47a-1daaf01442b4
+
+	measure 'v3 Profit' =
+			[v3 Sales Revenue] - [v3 Cost of Goods Sold]
+			    - [v3 Other Expenses]
+		displayFolder: v3
+		lineageTag: 7df09cc1-c2ac-400a-be57-08f794ea411b
+
+	measure 'v3 Profit PY' =
+			CALCULATE(
+			    [v3 Profit],
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: 0dbe979c-178c-4583-883f-ac22efd9f269
+
+	measure 'v3 Profit Delta PY' =
+			VAR _CY = [v3 Profit]
+			VAR _PY = [v3 Profit PY]
+			VAR _DeltaAbs = _CY - _PY
+			VAR _DeltaRel = DIVIDE( _DeltaAbs, ABS( _PY ), BLANK( ) )
+			RETURN
+			    IF(
+			        ISBLANK( _CY ) || ISBLANK( _PY ),
+			        BLANK( ),
+			        FORMAT(
+			            DIVIDE( _DeltaAbs, 1000 ),
+			            "+#,##0;-#,##0;0" --▲ ▼ ◀
+			        )
+			            & " / "
+			            & FORMAT( _DeltaRel, "+0.0% ▲;-0.0% ▼;0% ◀" )
+			    )
+		displayFolder: v3
+		lineageTag: 2aef6466-4e40-4b5e-92b9-58e23677bea0
+
+	measure 'v3 Cost of Goods Sold PY' =
+			CALCULATE(
+			    [v3 Cost of Goods Sold],
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: b8ca03eb-d7db-433b-a15e-045cf403ae1f
+
+	measure 'v3 Sales Revenue PY' =
+			CALCULATE(
+			    [v3 Sales Revenue],
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: f63ae14f-9bea-4235-b51b-03f4c3eb356e
+
+	measure 'v3 Other Expenses PY' =
+			CALCULATE(
+			    [v3 Other Expenses],
+			    SAMEPERIODLASTYEAR( DimDate[Datekey] ),
+			    DimScenario[ScenarioName] = "Actual"
+			)
+		displayFolder: v3
+		lineageTag: c020d2ab-588b-429b-8c92-58e8ef667ac1
+
+	measure 'v3 Sales Revenue Delta PY' =
+			VAR _CY = [v3 Sales Revenue]
+			VAR _PY = [v3 Sales Revenue PY]
+			VAR _DeltaAbs = _CY - _PY
+			VAR _DeltaRel = DIVIDE( _DeltaAbs, ABS( _PY ), BLANK( ) )
+			RETURN
+			    IF(
+			        ISBLANK( _CY ) || ISBLANK( _PY ),
+			        BLANK( ),
+			        FORMAT(
+			            DIVIDE( _DeltaAbs, 1000 ),
+			            "+#,##0;-#,##0;0" --▲ ▼ ◀
+			        )
+			            & " / "
+			            & FORMAT( _DeltaRel, "+0.0% ▲;-0.0% ▼;0% ◀" )
+			    )
+		displayFolder: v3
+		lineageTag: 635ea7e0-e3d2-428f-aca2-9654a0b245b4
+
+	measure 'v3 Cost of Goods Sold Delta PY' =
+			VAR _CY = [v3 Cost of Goods Sold]
+			VAR _PY = [v3 Cost of Goods Sold PY]
+			VAR _DeltaAbs = _CY - _PY
+			VAR _DeltaRel = DIVIDE( _DeltaAbs, ABS( _PY ), BLANK( ) )
+			RETURN
+			    IF(
+			        ISBLANK( _CY ) || ISBLANK( _PY ),
+			        BLANK( ),
+			        FORMAT(
+			            DIVIDE( _DeltaAbs, 1000 ),
+			            "+#,##0;-#,##0;0" --▲ ▼ ◀
+			        )
+			            & " / "
+			            & FORMAT( _DeltaRel, "+0.0% ▲;-0.0% ▼;0% ◀" )
+			    )
+		displayFolder: v3
+		lineageTag: 104608e9-7bd3-43ef-b426-881834bcb3ca
+
+	measure 'v3 Other Expenses Delta PY' =
+			VAR _CY = [v3 Other Expenses]
+			VAR _PY = [v3 Other Expenses PY]
+			VAR _DeltaAbs = _CY - _PY
+			VAR _DeltaRel = DIVIDE( _DeltaAbs, ABS( _PY ), BLANK( ) )
+			RETURN
+			    IF(
+			        ISBLANK( _CY ) || ISBLANK( _PY ),
+			        BLANK( ),
+			        FORMAT(
+			            DIVIDE( _DeltaAbs, 1000 ),
+			            "+#,##0;-#,##0;0" --▲ ▼ ◀
+			        )
+			            & " / "
+			            & FORMAT( _DeltaRel, "+0.0% ▲;-0.0% ▼;0% ◀" )
+			    )
+		displayFolder: v3
+		lineageTag: 77a3bf6a-8924-49be-9bbc-1fee9dbc931e
+
+	column LastProcessedTimestamp
+		lineageTag: a174cf8e-4137-43db-ac5a-6641f4204dbf
+		isNameInferred
+		sourceColumn: [LastProcessedTimestamp]
+
+	partition 'Measures Table' = calculated
+		mode: import
+		source = ROW("LastProcessedTimestamp",NOW())
+
+	annotation TabularEditor_TableGroup = Special
+

@@ -1,0 +1,79 @@
+table DimAccount
+	lineageTag: e0101845-3a08-4344-aeca-dc3f39fc4c6a
+
+	column AccountKey
+		dataType: int64
+		lineageTag: 1d322191-5ec8-4316-a370-2332aca57684
+		sourceColumn: AccountKey
+
+	column ParentAccountKey
+		dataType: int64
+		lineageTag: 36cfadf3-8105-44fd-bc9e-ac84def533df
+		sourceColumn: ParentAccountKey
+
+	column AccountLabel
+		dataType: string
+		lineageTag: 78942eda-49d4-4f20-9cac-966909c15092
+		sourceColumn: AccountLabel
+
+	column AccountName
+		dataType: string
+		lineageTag: e9b06e68-4bf3-4170-96d1-7edf6d73cc90
+		sourceColumn: AccountName
+
+	column AccountDescription
+		dataType: string
+		lineageTag: 717418d5-6767-40d6-91e6-2190fcad03d4
+		sourceColumn: AccountDescription
+
+	column AccountType
+		dataType: string
+		lineageTag: a203edcc-8065-4e39-b325-539e700ac517
+		sourceColumn: AccountType
+
+	column Operator
+		dataType: string
+		lineageTag: f161274a-a680-4e6b-b7be-b62b24e1f8a7
+		sourceColumn: Operator
+
+	column CustomMembers
+		dataType: string
+		lineageTag: 869b899a-4011-4284-80e0-c25718b66150
+		sourceColumn: CustomMembers
+
+	column ValueType
+		dataType: string
+		lineageTag: 06591571-cb53-48bd-b446-5ef0b1369ec6
+		sourceColumn: ValueType
+
+	column CustomMemberOptions
+		dataType: string
+		lineageTag: 2d3335d7-28fb-414d-ae0e-ec30aa996c6b
+		sourceColumn: CustomMemberOptions
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: efdb3aed-54a1-4bc5-9573-ddebce830106
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: 34943405-7c39-43df-b499-41844538c553
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: 0b6f0459-129f-48e0-8b6c-23c14799db27
+		sourceColumn: UpdateDate
+
+	partition DimAccount = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimAccount"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

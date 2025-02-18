@@ -1,0 +1,163 @@
+table DimDate
+	lineageTag: ebe5090f-6b3c-474f-b35a-d85687936c87
+	dataCategory: Time
+
+	column Datekey
+		dataType: dateTime
+		isKey
+		lineageTag: 681b77e8-b7b0-4bf1-94b8-bfa795cdd780
+		sourceColumn: Datekey
+
+		annotation TabularEditor_MarkAsDateKey = 1
+
+	column FullDateLabel
+		dataType: string
+		lineageTag: 02974534-6305-48d2-a8d1-a1d129089d49
+		sourceColumn: FullDateLabel
+
+	column DateDescription
+		dataType: string
+		lineageTag: c2904ad9-8748-4856-93c8-3fcc358235a8
+		sourceColumn: DateDescription
+
+	column CalendarYear
+		dataType: int64
+		lineageTag: 038b18c8-6b67-4475-a56c-9a09ac8d3f0a
+		sourceColumn: CalendarYear
+
+	column CalendarYearLabel
+		dataType: string
+		lineageTag: df1da5aa-d6c9-4a1d-92ee-96e52ccc3191
+		sourceColumn: CalendarYearLabel
+
+	column CalendarHalfYear
+		dataType: int64
+		lineageTag: a528bfc0-dcdd-4449-8d36-ec23e0958c31
+		sourceColumn: CalendarHalfYear
+
+	column CalendarHalfYearLabel
+		dataType: string
+		lineageTag: 62dc0a01-c789-4502-8346-cebb6e8ed024
+		sourceColumn: CalendarHalfYearLabel
+
+	column CalendarQuarter
+		dataType: int64
+		lineageTag: c85d96cd-7fb3-40f6-9ea0-bdbb0779c41b
+		sourceColumn: CalendarQuarter
+
+	column CalendarQuarterLabel
+		dataType: string
+		lineageTag: 0ab82b14-286e-48ff-83e0-769ea99909c7
+		sourceColumn: CalendarQuarterLabel
+
+	column CalendarMonth
+		dataType: int64
+		lineageTag: 88ac5bc9-b87c-4430-827c-0ea1e5a3560f
+		sourceColumn: CalendarMonth
+
+	column CalendarMonthLabel
+		dataType: string
+		lineageTag: 68bf01ba-d85b-4e30-99a7-013550e10c94
+		sourceColumn: CalendarMonthLabel
+
+	column CalendarWeek
+		dataType: int64
+		lineageTag: 97015fa0-67b0-460d-a2b9-22351899c937
+		sourceColumn: CalendarWeek
+
+	column CalendarWeekLabel
+		dataType: string
+		lineageTag: c2534819-e886-4964-9f36-dbaf1beaf7b4
+		sourceColumn: CalendarWeekLabel
+
+	column CalendarDayOfWeek
+		dataType: int64
+		lineageTag: defe8f26-e865-49a8-a297-fd813012854c
+		sourceColumn: CalendarDayOfWeek
+
+	column CalendarDayOfWeekLabel
+		dataType: string
+		lineageTag: e92322b9-8ca8-49c2-a884-99f0d21e38fe
+		sourceColumn: CalendarDayOfWeekLabel
+
+	column FiscalYear
+		dataType: int64
+		lineageTag: fb6512d2-9f78-47e9-a13a-09d6850848be
+		sourceColumn: FiscalYear
+
+	column FiscalYearLabel
+		dataType: string
+		lineageTag: 941291c1-470b-45c5-aecb-8c8f3f9c3174
+		sourceColumn: FiscalYearLabel
+
+	column FiscalHalfYear
+		dataType: int64
+		lineageTag: 6cdb14ee-42e4-477b-8e17-f903b3c102c8
+		sourceColumn: FiscalHalfYear
+
+	column FiscalHalfYearLabel
+		dataType: string
+		lineageTag: cf30fb1e-0f73-4f85-b88e-e25125b1b894
+		sourceColumn: FiscalHalfYearLabel
+
+	column FiscalQuarter
+		dataType: int64
+		lineageTag: c494d16a-76c8-41e4-876e-a07b8dfcd718
+		sourceColumn: FiscalQuarter
+
+	column FiscalQuarterLabel
+		dataType: string
+		lineageTag: c365b28d-b088-480c-a4c6-fd6110d08aee
+		sourceColumn: FiscalQuarterLabel
+
+	column FiscalMonth
+		dataType: int64
+		lineageTag: 9c3250fc-48fd-418e-bf7a-a96eb67eae2f
+		sourceColumn: FiscalMonth
+
+	column FiscalMonthLabel
+		dataType: string
+		lineageTag: 0df30fab-1e91-4483-8277-bdd3193e50a7
+		sourceColumn: FiscalMonthLabel
+
+	column IsWorkDay
+		dataType: string
+		lineageTag: ab6ff5ee-5c8b-47c3-ba6f-1d156ecfc010
+		sourceColumn: IsWorkDay
+
+	column IsHoliday
+		dataType: int64
+		lineageTag: 139dfcf7-2378-45eb-9c5a-07d1abdcde08
+		sourceColumn: IsHoliday
+
+	column HolidayName
+		dataType: string
+		lineageTag: 1cdeb619-6c2a-4239-9031-ca36bba0619b
+		sourceColumn: HolidayName
+
+	column EuropeSeason
+		dataType: string
+		lineageTag: 1af2c39d-68b0-475f-b8b2-0ab7bd954cad
+		sourceColumn: EuropeSeason
+
+	column NorthAmericaSeason
+		dataType: string
+		lineageTag: 8af7c959-221e-4e22-bda1-b884f61b4609
+		sourceColumn: NorthAmericaSeason
+
+	column AsiaSeason
+		dataType: string
+		lineageTag: c93649f6-795b-48b4-b3aa-8fed7fbc8a38
+		sourceColumn: AsiaSeason
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimDate"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

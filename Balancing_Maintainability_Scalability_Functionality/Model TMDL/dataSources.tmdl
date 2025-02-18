@@ -1,0 +1,9 @@
+dataSource FinanceLakehouse
+	connectionDetails
+		protocol: tds
+		address
+			server: <Your Lakehouse>.datawarehouse.fabric.microsoft.com
+			database: FinanceLakehouse
+	credential
+		authenticationKind: ServiceAccount
+

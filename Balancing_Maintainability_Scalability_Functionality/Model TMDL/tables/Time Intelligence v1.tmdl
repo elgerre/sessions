@@ -1,0 +1,59 @@
+table 'Time Intelligence v1'
+	lineageTag: ee855f27-8446-474b-b748-61b04bfdde27
+
+	calculationGroup
+
+		calculationItem Actuals =
+				CALCULATE(
+				    SELECTEDMEASURE( ),
+				    DimScenario[ScenarioName] = "Actual"
+				)
+
+		calculationItem PY =
+				CALCULATE(
+				    SELECTEDMEASURE( ),
+				    DimScenario[ScenarioName] = "Actual",
+				    SAMEPERIODLASTYEAR( DimDate[Datekey] )
+				)
+
+		calculationItem 'Delta PY' =
+				VAR _CY =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _PY =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual",
+				        SAMEPERIODLASTYEAR( DimDate[Datekey] )
+				    )
+				RETURN
+				    _CY - _PY
+
+		calculationItem 'Delta Budget' =
+				VAR _Act =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Actual"
+				    )
+				VAR _Bud =
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        DimScenario[ScenarioName] = "Budget"
+				    )
+				RETURN
+				    _Act - _Bud
+
+	column 'Time Intelligence Calculation Item'
+		dataType: string
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		sourceColumn: Ordinal
+
+	annotation TabularEditor_TableGroup = Special
+

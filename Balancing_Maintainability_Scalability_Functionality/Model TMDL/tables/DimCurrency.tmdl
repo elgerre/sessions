@@ -1,0 +1,49 @@
+table DimCurrency
+	lineageTag: 3aa9ff1b-d0fa-4292-a18a-76929e07792c
+
+	column CurrencyKey
+		dataType: int64
+		lineageTag: 8c30261a-a069-4481-8d4c-05af8d81fcca
+		sourceColumn: CurrencyKey
+
+	column CurrencyLabel
+		dataType: string
+		lineageTag: 982533e5-ff6c-4e63-9080-f88284431635
+		sourceColumn: CurrencyLabel
+
+	column CurrencyName
+		dataType: string
+		lineageTag: f8421849-8f45-4792-ad99-d41b88852b4d
+		sourceColumn: CurrencyName
+
+	column CurrencyDescription
+		dataType: string
+		lineageTag: 7ed46fde-aab0-4790-bfe6-9c258a2ba752
+		sourceColumn: CurrencyDescription
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: 379d870c-f80b-4d54-802d-e8bd3169830d
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: 2d700326-2b30-4f89-888d-4241bfed04d5
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: 26550161-dcf9-4427-ad74-67008a5cb051
+		sourceColumn: UpdateDate
+
+	partition DimCurrency = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimCurrency"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

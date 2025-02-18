@@ -1,0 +1,24 @@
+relationship 3cde4c8d-3eb1-4c20-b341-bed533b1574c
+	fromColumn: FactStrategyPlan.AccountKey
+	toColumn: DimAccount.AccountKey
+
+relationship 19e6b98a-8e67-43ff-b8c2-6ab3f3fa672f
+	fromColumn: FactStrategyPlan.CurrencyKey
+	toColumn: DimCurrency.CurrencyKey
+
+relationship 80235300-59ac-44ea-a455-0a5069e16b1e
+	fromColumn: FactStrategyPlan.Datekey
+	toColumn: DimDate.Datekey
+
+relationship 054de7b0-3937-49e0-aeea-83690f27b096
+	fromColumn: FactStrategyPlan.EntityKey
+	toColumn: DimEntity.EntityKey
+
+relationship 362ce52c-cfed-44e3-94f2-59d14e4492a2
+	fromColumn: FactStrategyPlan.ProductCategoryKey
+	toColumn: DimProductCategory.ProductCategoryKey
+
+relationship bb26e869-d89b-45bf-8518-763266697ae0
+	fromColumn: FactStrategyPlan.ScenarioKey
+	toColumn: DimScenario.ScenarioKey
+

@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+
+annotation TabularEditor_SerializeOptions = {"IgnoreInferredObjects":true,"IgnoreInferredProperties":true,"IgnoreTimestamps":true,"SplitMultilineStrings":true,"PrefixFilenames":false,"LocalTranslations":true,"LocalPerspectives":true,"LocalRelationships":true,"Levels":["Data Sources","Perspectives","Relationships","Roles","Shared Expressions","Tables","Tables/Calculation Items","Tables/Columns","Tables/Hierarchies","Tables/Measures","Tables/Partitions","Translations"]}
+
+annotation __TEdtr = 1
+
+annotation __PBI_ServiceStoredInTMDL = 1
+
+ref table DimAccount
+ref table DimCurrency
+ref table DimDate
+ref table DimEntity
+ref table DimProductCategory
+ref table DimScenario
+ref table FactStrategyPlan
+ref table 'Time Intelligence v1'
+ref table 'Measures Table'
+ref table 'Time Intelligence v2'
+ref table 'Time Intelligence Sorting'
+ref table 'Visual Titles'
+
+ref cultureInfo de-DE
+ref cultureInfo en-US
+

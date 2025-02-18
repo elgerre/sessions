@@ -1,0 +1,49 @@
+table DimProductCategory
+	lineageTag: 81f0d938-f91a-40da-adf5-c5c65cfbd236
+
+	column ProductCategoryKey
+		dataType: int64
+		lineageTag: 1340ca19-5a6d-452a-bec1-e0bbf9a54045
+		sourceColumn: ProductCategoryKey
+
+	column ProductCategoryLabel
+		dataType: string
+		lineageTag: 3eaeda09-c254-454d-914f-189b5282a772
+		sourceColumn: ProductCategoryLabel
+
+	column ProductCategoryName
+		dataType: string
+		lineageTag: 62e005e2-dae3-4d1f-9226-3504d03313cd
+		sourceColumn: ProductCategoryName
+
+	column ProductCategoryDescription
+		dataType: string
+		lineageTag: 28edaa17-fe94-4041-8eaa-b8e153bc67b0
+		sourceColumn: ProductCategoryDescription
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: 01613c4b-5d4e-4193-8107-2081c0018425
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: d44b4967-18c7-4d5e-9b98-3a16d7e47295
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: 328a012b-df9c-4447-83fb-fb0b03500ef3
+		sourceColumn: UpdateDate
+
+	partition DimProductCategory = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimProductCategory"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

@@ -1,0 +1,49 @@
+table DimScenario
+	lineageTag: 804be827-f457-445f-a485-689c1aa2d0dd
+
+	column ScenarioKey
+		dataType: int64
+		lineageTag: f7274f35-bf78-4fcd-8812-2830e57886e3
+		sourceColumn: ScenarioKey
+
+	column ScenarioLabel
+		dataType: string
+		lineageTag: 9c160072-d07f-45a2-9d5b-379a79aeece7
+		sourceColumn: ScenarioLabel
+
+	column ScenarioName
+		dataType: string
+		lineageTag: 66344a30-af91-49c8-9904-e55d81e114e4
+		sourceColumn: ScenarioName
+
+	column ScenarioDescription
+		dataType: string
+		lineageTag: 5204b13a-de9d-4b2c-8ae3-c9fa2b28711d
+		sourceColumn: ScenarioDescription
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: 8d2b6f87-d4bd-484a-ab73-aac70bbeb328
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: 6280f3cd-22e5-4064-9474-1a44177b8f1c
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: c7ce41ec-8606-44fa-9100-0004fe4bbdc8
+		sourceColumn: UpdateDate
+
+	partition DimScenario = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimScenario"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

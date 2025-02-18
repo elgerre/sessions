@@ -1,0 +1,69 @@
+table FactStrategyPlan
+	lineageTag: c62d1d22-fa57-4f5c-a319-c991c8816f69
+
+	column StrategyPlanKey
+		dataType: int64
+		lineageTag: a2973c7c-7256-4bf8-a69e-d970320373e8
+		sourceColumn: StrategyPlanKey
+
+	column Datekey
+		dataType: dateTime
+		lineageTag: ca197d67-23db-4f86-962d-e167a267aba5
+		sourceColumn: Datekey
+
+	column EntityKey
+		dataType: int64
+		lineageTag: 2a2b5525-72d9-4001-9de7-d21ce8a1550b
+		sourceColumn: EntityKey
+
+	column ScenarioKey
+		dataType: int64
+		lineageTag: 3778108d-87a2-46ac-b399-5c5eb8a23fb1
+		sourceColumn: ScenarioKey
+
+	column AccountKey
+		dataType: int64
+		lineageTag: 0a9062c7-40c0-4671-a8d0-44d8e5907115
+		sourceColumn: AccountKey
+
+	column CurrencyKey
+		dataType: int64
+		lineageTag: 08c286a0-8217-4927-9fae-32350c85a075
+		sourceColumn: CurrencyKey
+
+	column ProductCategoryKey
+		dataType: int64
+		lineageTag: 8f8b722b-9224-4d44-9822-0c18d5b64aa6
+		sourceColumn: ProductCategoryKey
+
+	column Amount
+		dataType: decimal
+		lineageTag: f0e3ee93-8de0-44c6-9003-4ba333641dde
+		sourceColumn: Amount
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: 18d8622f-21bf-4171-8c62-0cbedd6f11d0
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: b32c61cd-60b9-41a8-a217-30a6112440d6
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: bccbb9ef-c212-4fee-9d8f-649f8fedf59d
+		sourceColumn: UpdateDate
+
+	partition FactStrategyPlan = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="FactStrategyPlan"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Facts
+

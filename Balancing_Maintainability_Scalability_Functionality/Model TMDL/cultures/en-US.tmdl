@@ -1,0 +1,12 @@
+cultureInfo en-US
+	translations
+		model Model
+			table DimAccount
+				column AccountName
+					caption: Account
+			table 'Measures Table'
+				measure 'v3 Cost of Goods Sold'
+					caption: Costs
+				measure 'v3 Sales Revenue'
+					caption: Revenue
+

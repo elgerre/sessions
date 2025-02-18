@@ -1,0 +1,79 @@
+table DimEntity
+	lineageTag: 14f1ad04-0c94-4c93-acab-a6ac599dd14b
+
+	column EntityKey
+		dataType: int64
+		lineageTag: 2217c147-96d8-40fd-a2c2-78e2870179d4
+		sourceColumn: EntityKey
+
+	column EntityLabel
+		dataType: string
+		lineageTag: 572cc23b-8ea5-4be4-a867-416287a5bef8
+		sourceColumn: EntityLabel
+
+	column ParentEntityKey
+		dataType: int64
+		lineageTag: ac3913d9-5b6f-4ae8-9d7b-d18685d45645
+		sourceColumn: ParentEntityKey
+
+	column ParentEntityLabel
+		dataType: string
+		lineageTag: b7b7b44c-ff6b-4549-875a-1be0536846fc
+		sourceColumn: ParentEntityLabel
+
+	column EntityName
+		dataType: string
+		lineageTag: 0cac72f3-a3b0-41d7-aa1f-e8ec21bb764c
+		sourceColumn: EntityName
+
+	column EntityDescription
+		dataType: string
+		lineageTag: 7f136a43-69c1-4774-a1fb-b8091f82de18
+		sourceColumn: EntityDescription
+
+	column EntityType
+		dataType: string
+		lineageTag: a400da71-31dc-40e9-ac07-84664f677a1d
+		sourceColumn: EntityType
+
+	column StartDate
+		dataType: dateTime
+		lineageTag: 98468593-ec3f-4ffb-af1f-457b3ce9fc6a
+		sourceColumn: StartDate
+
+	column EndDate
+		dataType: dateTime
+		lineageTag: 9e61904b-6d37-4398-981f-ed6288644fdd
+		sourceColumn: EndDate
+
+	column Status
+		dataType: string
+		lineageTag: 0cf34fef-df76-4c01-b177-2879c5edff7d
+		sourceColumn: Status
+
+	column ETLLoadID
+		dataType: int64
+		lineageTag: b18a0aca-654c-484f-8fab-bf553cb785e4
+		sourceColumn: ETLLoadID
+
+	column LoadDate
+		dataType: dateTime
+		lineageTag: 3cdbd823-d142-494a-ab63-51a1ba35e2c1
+		sourceColumn: LoadDate
+
+	column UpdateDate
+		dataType: dateTime
+		lineageTag: 1887d99b-9b06-4337-90ed-686d9b5ef0ad
+		sourceColumn: UpdateDate
+
+	partition DimEntity = m
+		mode: import
+		source =
+				let
+				    Source = #"FinanceLakehouse",
+				    Data = Source{[Schema="dbo",Item="DimEntity"]}[Data]
+				in
+				    Data
+
+	annotation TabularEditor_TableGroup = Dimensions
+

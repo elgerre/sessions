@@ -1,0 +1,41 @@
+table 'Visual Titles'
+	lineageTag: eb31a9db-eac4-467d-8cbf-92488961ac18
+
+	measure 'Report Title' =
+			CALCULATE(
+			    MAX( 'Visual Titles'[Visual Title] ),
+			    'Visual Titles'[Visual ID] = "Report Title",
+			    'Visual Titles'[User Culture] = USERCULTURE( )
+			)
+		lineageTag: c22052bf-7f4b-446a-9d46-97317ae039bd
+
+	column 'Visual ID'
+		lineageTag: 708e0b82-b1ec-4d3e-bec9-e10bbca38f66
+		isNameInferred
+		sourceColumn: [Visual ID]
+
+	column 'Visual Title'
+		lineageTag: 47d2cd14-3b0f-4a8f-99ad-17b5d675ff35
+		isNameInferred
+		sourceColumn: [Visual Title]
+
+	column 'User Culture'
+		lineageTag: 19f980a7-71ac-4b0d-885f-e39444f6921a
+		isNameInferred
+		sourceColumn: [User Culture]
+
+	partition 'Visual Titles' = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Visual ID", STRING,
+				    "Visual Title", STRING,
+				    "User Culture", STRING,
+				    {
+				        { "Report Title", "Contoso Report", "en-US" },
+				        { "Report Title", "Contoso Bericht", "de-DE" }
+				    }
+				)
+
+	annotation TabularEditor_TableGroup = Special
+

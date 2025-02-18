@@ -1,0 +1,40 @@
+table 'Time Intelligence Sorting'
+	lineageTag: 1430776c-52ea-488d-bd17-6464dfaad93f
+
+	calculationGroup
+		precedence: 2
+
+		calculationItem CY =
+				IF(
+				    ISFILTERED( 'Time Intelligence v2'[Ordinal] ),
+				    SELECTEDMEASURE( ),
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        'Time Intelligence v2'[Time Intelligence Calculation Item]
+				            = "CY"
+				    )
+				)
+
+		calculationItem 'Delta PY' =
+				IF(
+				    ISFILTERED( 'Time Intelligence v2'[Ordinal] ),
+				    SELECTEDMEASURE( ),
+				    CALCULATE(
+				        SELECTEDMEASURE( ),
+				        'Time Intelligence v2'[Time Intelligence Calculation Item]
+				            = "Delta PY"
+				    )
+				)
+
+	column Name
+		dataType: string
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		sourceColumn: Ordinal
+
+	annotation TabularEditor_TableGroup = Special
+
